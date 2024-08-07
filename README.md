@@ -2,6 +2,88 @@
 
 This repository is the base of the case study for all potential DevSecOps engineers at Yarowa AG.
 
+## Steps to run
+
+#### 1. Installing Tools
+Consider using [ASDF](https://asdf-vm.com/) to install all my CLI tools declared in `.tool-versions` for better version control.
+
+```bash
+# Plugins must be installed first with
+asdf plugin add <plugin_name>
+
+# From root directory
+asdf install
+```
+
+#### 2. Create the Kind Cluster
+
+
+
+```bash
+kind create cluster --config=kind.yaml
+```
+
+#### 3. Web Application
+
+- A Vite + ReactJS web app has been created under `app/`.
+- The `vite.config.js` is modified to run on port 5000 for both, development and preview modes.
+- For local development, use `npm run dev`. After completing local development, build and test the application with `npm run build` and `npm run preview`.
+
+**Disclaimer**: On MacOS, running the application might interfere with AirPlay. Disable AirPlay first if necessary.
+
+
+#### 4. Dockerizing the Application
+
+- The `Dockerfile` is located in the `/` directory and builds the web app located inside the `app/` directory.
+
+- After building the Docker image, push it to Docker Hub:
+
+```bash
+docker build -t <dockerhub_username>/yarowa-web-app:0.1.0 .
+docker push <dockerhub_username>/yarowa-web-app:0.1.0
+```
+
+
+#### 5. Helm Chart
+
+- The `helmchart/` directory contains the template for the Kubernetes deployment.
+- No additional configuration is required.
+
+
+#### 6. Host Configuration
+- Add the following entries to your `/etc/hosts` file:
+
+```txt
+127.0.0.1 casestudy.local.yarowa.io
+127.0.0.1 prometheus.local.yarowa.io
+127.0.0.1 grafana.local.yarowa.io
+```
+
+
+#### 7. Helmfile Configuration
+
+- The `helmfile.d/` directory contains the configuration files for:
+    - Local Helm chart deployment
+    - Ingress controller setup
+    - Prometheus and Grafana setup
+
+**Disclaimer**: Due to lack of compute resources, metrics exportation is not configured.
+
+#### 8. Running the setup
+
+1. Apply helmfile configuration:
+```bash
+cd helmfile.d/
+helmfile apply
+```
+
+2. Access the Applications
+- Web Application: http://casestudy.local.yarowa.io
+- Prometheus: http://prometheus.local.yarowa.io
+- Grafana: http://grafana.local.yarowa.io
+
+
+
 ## Instructions
 
 1. Fork this repository and mark it as private.

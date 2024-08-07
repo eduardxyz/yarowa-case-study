@@ -15,8 +15,8 @@ ingress:
   hosts:
     - host: casestudy.local.yarowa.io
       paths:
-      - path: /
-        pathType: ImplementationSpecific
+        - path: /
+          pathType: ImplementationSpecific
     - host:
       paths:
       - path: /
