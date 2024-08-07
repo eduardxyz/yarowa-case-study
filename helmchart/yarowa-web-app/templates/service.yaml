@@ -1,0 +1,16 @@
+# yarowa-web-app/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "yarowa-web-app.fullname" . }}
+  labels:
+    {{- include "yarowa-web-app.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.appPort }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "yarowa-web-app.selectorLabels" . | nindent 4 }}
