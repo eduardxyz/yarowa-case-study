@@ -11,14 +11,15 @@ service:
 
 ingress:
   enabled: true
-  className: nginx
+  annotations:
+    kubernetes.io/ingress.class: nginx
   hosts:
     - host: casestudy.local.yarowa.io
       paths:
-        - path: /
-          pathType: ImplementationSpecific
+      - path: /
+        pathType: Prefix
     - host:
       paths:
       - path: /
-        pathType: ImplementationSpecific
+        pathType: Prefix
   tls: []
